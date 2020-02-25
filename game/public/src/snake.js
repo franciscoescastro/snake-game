@@ -18,8 +18,26 @@ class Snake {
         this.x += this.xSpeed * this.scale
         this.y += this.ySpeed * this.scale
 
-        this.x = p5.constrain(this.x, 0, p5.width - this.scale)
-        this.y = p5.constrain(this.y, 0, p5.height - this.scale)
+        // this.x = p5.constrain(this.x, 0, p5.width - this.scale)
+        // this.y = p5.constrain(this.y, 0, p5.height - this.scale)
+
+        const widthBoundarie = p5.width - this.scale
+        const heightBoundarie = p5.height - this.scale
+        if(this.x > widthBoundarie) {
+            this.x = 0
+        }
+
+        if(this.x < 0) {
+            this.x = widthBoundarie
+        }
+
+        if(this.y > heightBoundarie) {
+            this.y = 0
+        }
+        
+        if(this.y < 0) {
+            this.y = heightBoundarie
+        }
         
         if(this.tail.length > 0) {
             const tailLastItem = this.tail.pop()
@@ -47,24 +65,52 @@ class Snake {
     }
 
     moveUp() {
+        if(this.isMovingDown()) {
+            return
+        }
         this.xSpeed = 0
         this.ySpeed = -1
     }
 
     moveDown() {
+        if(this.isMovingUp()) {
+            return
+        }
         this.xSpeed = 0
         this.ySpeed = 1
     }
     
     moveLeft() {
+        if(this.isMovingRight()) {
+            return
+        }
         this.xSpeed = -1
         this.ySpeed = 0
     }
 
     moveRight() {
+        if(this.isMovingLeft()) {
+            return
+        }
         this.xSpeed = 1
         this.ySpeed = 0
-    }ø
+    }
+
+    isMovingUp() {
+        return this.xSpeed === 0 && this.ySpeed === -1
+    }
+
+    isMovingDown() {
+        return this.xSpeed === 0 && this.ySpeed === 1
+    }
+
+    isMovingLeft() {
+        return this.xSpeed === -1 && this.ySpeed === 0
+    }
+
+    isMovingRight() {
+        return this.xSpeed === 1 && this.ySpeed === 0
+    }
 
     eat(food) {
         if(this.x === food.x && this.y === food.y) {
