@@ -1,0 +1,5 @@
+ports:
+  - port: 3000
+tasks:
+  - before: cd game
+    command: nvm install node && npm install && npm start
